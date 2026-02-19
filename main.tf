@@ -22,6 +22,12 @@ filter {
  }
 }
 
+# Este recurso le sua chave publica local e a registra na AWS
+resource "aws_key_pair" "chave_ssh" {
+ key_name   = "minha-chave-ohio"
+ public_key = file("~/.ssh/id_ed25519_aws.pub") #Caminho para a chave que criamos
+}
+
 #2. Cria um Security Group  (O Firewall da AWS)
 resource "aws_security_group" "permitir_ssh" {
  name        = "permitir_ssh"
@@ -45,6 +51,7 @@ resource "aws_security_group" "permitir_ssh" {
  resource "aws_instance" "servidor_teste" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = "t3.micro"
+  key_name      = aws_key_pair.chave_ssh.key_name
   vpc_security_group_ids = [aws_security_group.permitir_ssh.id]
 
   tags = {
