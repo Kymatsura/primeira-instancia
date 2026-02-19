@@ -31,7 +31,7 @@ resource "aws_security_group" "permitir_ssh" {
   from_port   = 22
   to_port     = 22
   protocol    = "tcp"
-  cidr_blocks = "["0.0.0.0/0"] # Em producao, coloque IP real aqui
+  cidr_blocks = ["0.0.0.0/0"] # Em producao, coloque IP real aqui
  }
 
  egress {
@@ -39,9 +39,8 @@ resource "aws_security_group" "permitir_ssh" {
   to_port     = 0
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
+  }
  }
-}
-
 # 3. Cria a Instancia EC2
  resource "aws_instance" "servidor_teste" {
   ami           = data.aws_ami.amazon_linux.id
@@ -58,5 +57,4 @@ resource "aws_security_group" "permitir_ssh" {
 
 output "ip_publico" {
  value = aws_instance.servidor_teste.public_ip
-
 }
