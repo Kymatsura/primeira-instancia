@@ -44,7 +44,7 @@ resource "aws_security_group" "permitir_ssh" {
 # 3. Cria a Instancia EC2
  resource "aws_instance" "servidor_teste" {
   ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   vpc_security_group_ids = [aws_security_group.permitir_ssh.id]
 
   tags = {
